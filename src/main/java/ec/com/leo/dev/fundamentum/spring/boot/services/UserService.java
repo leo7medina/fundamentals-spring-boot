@@ -16,7 +16,7 @@ public class UserService implements IUserService {
 
     private final static Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String MESSAGE_USER_NOT_FOUND = "Ha ocurrido un error buscando el usuario por email";
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
     public UserService(IUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -29,12 +29,7 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserByEmail(String email) {
-//        Optional<User> optionalUser = userRepository.findMyUserByEmail(email);
-//        if (optionalUser.isPresent()) {
-//            return optionalUser.get();
-//        }
         return userRepository.findMyUserByEmail(email).orElseThrow(() -> new RuntimeException(MESSAGE_USER_NOT_FOUND));
-//        throw new RuntimeException("Ha ocurrido un error buscando el usuario por email");
     }
 
     @Override
@@ -50,8 +45,8 @@ public class UserService implements IUserService {
     @Transactional
     public void save(List<User> users) {
         users.stream()
-                .peek(user -> logger.info("Insert: " + user))
-                .forEach(user -> userRepository.save(user));
+                .peek(user -> logger.info("Insert: {}", user))
+                .forEach(userRepository::save);
     }
 
     @Override

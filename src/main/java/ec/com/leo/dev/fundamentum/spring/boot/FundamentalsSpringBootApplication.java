@@ -4,6 +4,10 @@ import ec.com.leo.dev.fundamentum.spring.boot.entity.User;
 import ec.com.leo.dev.fundamentum.spring.boot.repository.IPostRepository;
 import ec.com.leo.dev.fundamentum.spring.boot.repository.IUserRepository;
 import ec.com.leo.dev.fundamentum.spring.boot.services.IUserService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +18,15 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "FUNDAMENTALS SPRING BOOT REST API Documentation",
+                version = "1.0.0-RELEASE",
+                description = "Documentación de la API con OpenAPI 3 - Fundamentos de Spring Boot",
+                contact = @Contact(name = "Leo Medina", email = "tioleodeveloper@gmail.com", url = "https://github.com/leo7medina"),
+                license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html")
+        )
+)
 @SpringBootApplication
 public class FundamentalsSpringBootApplication implements CommandLineRunner {
 
@@ -74,7 +87,7 @@ public class FundamentalsSpringBootApplication implements CommandLineRunner {
 
 		try {
 			userService.save(users);
-			users.stream().forEach(user -> logger.info("Mi usuario registrado " + user.toString()));
+			users.forEach(user -> logger.info("Mi usuario registrado " + user.toString()));
 		} catch (RuntimeException e) {
 			logger.error("La siguiente exepcion ocurrio durante la ejecución del metodo para registrar usuarios");
 			logger.error(e.getMessage());
